@@ -1,0 +1,19 @@
+{
+  "description": "Etherpad plugin to observe shortcuts pressed on the editor, and to send a message to Etherpad content window (when used on iframe) whenever a shortcut is pressed",
+  "name": "ep_external_shortcuts",
+  "version": "0.0.1",
+  "author": {
+    "name": "Luiza Pagliari",
+    "url": "https://github.com/lpagliari"
+  },
+  "dependencies": {},
+  "engines": {
+    "node": "*"
+  },
+  "homepage": "https://github.com/storytouch/ep_external_shortcuts",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/storytouch/ep_external_shortcuts"
+  }
+}

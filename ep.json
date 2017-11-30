@@ -1,0 +1,13 @@
+{
+  "parts": [
+    {
+      "name": "external_shortcuts",
+      "client_hooks": {
+        "postAceInit": "ep_external_shortcuts/static/js/index"
+      },
+      "hooks": {
+        "eejsBlock_scripts": "ep_external_shortcuts/index"
+      }
+    }
+  ]
+}
