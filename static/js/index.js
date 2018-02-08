@@ -3,6 +3,7 @@ var $ = require('ep_etherpad-lite/static/js/rjquery').$;
 var EDITOR_READY = 'editor_ready';
 var REGISTER_SHORTCUTS = 'register_shortcuts';
 var SHORTCUT_TRIGGERED = 'shortcut_triggered';
+var CLICK_ON_EDITOR = 'click_on_editor';
 
 exports.postAceInit = function(hook, context) {
   _init();
@@ -18,6 +19,8 @@ var _init = function() {
 
   // let external wrappers know we're ready to receive messages
   _triggerReadyEvent();
+
+  _listenForClickEventsOnEditorAndTriggerViaApi();
 }
 
 var SHORTCUT_TARGETS;
@@ -51,6 +54,28 @@ var _triggerShortcutPressed = function(e, combo) {
     combo: combo,
   };
   _triggerEvent(message);
+}
+
+var _triggerClickEventOnEditor = function() {
+  var message = {
+    type: CLICK_ON_EDITOR,
+  };
+  _triggerEvent(message);
+}
+
+var _listenForClickEventsOnEditorAndTriggerViaApi = function() {
+  var $padOuter = $('iframe[name="ace_outer"]').contents();
+  var $padInner = $padOuter.find('iframe[name="ace_inner"]').contents();
+
+  $(document).on("touchstart click", function(){
+    _triggerClickEventOnEditor();
+  });
+  $padOuter.find('html').on("touchstart click", function(){
+    _triggerClickEventOnEditor();
+  });
+  $padInner.find('html').on("touchstart click", function(){
+    _triggerClickEventOnEditor();
+  });
 }
 
 var _triggerEvent = function _triggerEvent(message) {
