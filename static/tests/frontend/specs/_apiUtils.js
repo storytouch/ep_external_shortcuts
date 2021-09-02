@@ -32,6 +32,7 @@ ep_external_shortcuts_test_helper.apiUtils = {
 
   /**** messages coming from outside ****/
   REGISTER_SHORTCUTS: 'register_shortcuts',
+  TRIGGER_SHORTCUT: 'trigger_shortcut',
 
   _simulateEventCall: function(message) {
     ep_script_touches_test_helper.apiUtils._simulateEventCall(message);
@@ -44,4 +45,12 @@ ep_external_shortcuts_test_helper.apiUtils = {
     };
     this._simulateEventCall(message);
   },
+
+  simulateCallToTriggerShortcut: function(shortcut) {
+    var message = {
+      type: this.TRIGGER_SHORTCUT,
+      shortcut: shortcut
+    };
+    this._simulateEventCall(message);
+  }
 }

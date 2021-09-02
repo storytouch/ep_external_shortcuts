@@ -1,9 +1,12 @@
 var ep_external_shortcuts_test_helper = ep_external_shortcuts_test_helper || {};
 ep_external_shortcuts_test_helper.utils = {
+
   createPad: function(test, done) {
+    var self = this;
     test.timeout(60000);
     helper.newPad(function() {
       ep_external_shortcuts_test_helper.apiUtils.startListeningToApiEvents();
+      self.startListeningToKeyEvents();
       done();
     });
   },
@@ -30,4 +33,18 @@ ep_external_shortcuts_test_helper.utils = {
     e.metaKey = _.contains(modifierKeys, this.CMD_KEY);
   },
 
+  resetLastKeyEvent: function() {
+    this.lastKeyEvent = null;
+  },
+
+  getLastKeyEvent: function() {
+    return this.lastKeyEvent;
+  },
+
+  startListeningToKeyEvents: function() {
+    var self = this;
+    helper.padInner$.document.addEventListener('keydown', function(evt){
+      self.lastKeyEvent = evt;
+    });
+  }
 }
