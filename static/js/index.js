@@ -21,9 +21,8 @@ var _init = function() {
         break;
       case TRIGGER_SHORTCUT:
         // receive shortcut from manager and trigger it in etherpad
-        var keyEvent = new KeyboardEvent('keydown', e.data.shortcut);
-        utils.getPadInner().get(0).dispatchEvent(keyEvent);
-        break;
+      _triggerShortcut(e.data.shortcut);
+      break;
     }
   });
 
@@ -49,6 +48,11 @@ var _registerShortcuts = function(shortcuts) {
   for (var i = targets.length - 1; i >= 0; i--) {
     Mousetrap(targets[i]).bind(shortcuts, _triggerShortcutPressed);
   }
+}
+
+var _triggerShortcut = function(shortcut){
+  var keyEvent = new KeyboardEvent('keydown', shortcut);
+  utils.getPadInner().get(0).dispatchEvent(keyEvent);
 }
 
 var _triggerReadyEvent = function() {
