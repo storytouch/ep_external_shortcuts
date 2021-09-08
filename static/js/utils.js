@@ -1,4 +1,3 @@
-var _ = require('ep_etherpad-lite/static/js/underscore');
 var $ = require('ep_etherpad-lite/static/js/rjquery').$;
 
 // Easier access to outer pad
