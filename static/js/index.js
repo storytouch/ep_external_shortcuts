@@ -1,9 +1,11 @@
 var $ = require('ep_etherpad-lite/static/js/rjquery').$;
+var utils = require('./utils');
 
 var EDITOR_READY = 'editor_ready';
 var REGISTER_SHORTCUTS = 'register_shortcuts';
 var SHORTCUT_TRIGGERED = 'shortcut_triggered';
 var CLICK_ON_EDITOR = 'click_on_editor';
+var TRIGGER_SHORTCUT = 'trigger_shortcut';
 
 exports.postAceInit = function(hook, context) {
   _init();
@@ -12,8 +14,15 @@ exports.postAceInit = function(hook, context) {
 var _init = function() {
   // listen to outbound calls of this API
   window.addEventListener('message', function(e) {
-    if (e.data.type === REGISTER_SHORTCUTS) {
-      _registerShortcuts(e.data.combos)
+    switch (e.data.type) {
+      case REGISTER_SHORTCUTS:
+        // when the registered shortcut is used, the manager gets notified
+        _registerShortcuts(e.data.combos);
+        break;
+      case TRIGGER_SHORTCUT:
+        // receive shortcut from manager and trigger it in etherpad
+      _triggerShortcut(e.data.shortcut);
+      break;
     }
   });
 
@@ -39,6 +48,11 @@ var _registerShortcuts = function(shortcuts) {
   for (var i = targets.length - 1; i >= 0; i--) {
     Mousetrap(targets[i]).bind(shortcuts, _triggerShortcutPressed);
   }
+}
+
+var _triggerShortcut = function(shortcut){
+  var keyEvent = new KeyboardEvent('keydown', shortcut);
+  utils.getPadInner().get(0).dispatchEvent(keyEvent);
 }
 
 var _triggerReadyEvent = function() {
